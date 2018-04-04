@@ -22,7 +22,7 @@ Pf <- 50 #final pressure [Pa]
 
 ## Boundary Conditions ####
 # Pipe and fluid characteristics
-mu <- 8.94e-4 # visocity for water. units: [Pa*s] at temp = 25 C
+mu <- 8.94e-4 #viscosity for water. units: [Pa*s] at temp = 25 C
 R <- 0.1 #radius of pipe [m]
 l <- 4 #length of pipe [m]
 
@@ -30,7 +30,6 @@ l <- 4 #length of pipe [m]
 N <- 100 #radial resolution
 r <- seq(-R,R,length.out=N) #diameter of pipe
 S <- pi*(R^2) #area of pipe axial
-Q <- Vmean*S #volumetric flow rate
 
 # time dependent
 time <- seq(0,19) #length 20
@@ -43,10 +42,14 @@ Pdiff <- abs(Pft-Pit) #pressure difference over time
 # Create Data Viz ####
 # plot shows V (average speed) and r (pipe radius)
 # ((Pdiff)*(R^2)/(4*mu*l))*(1-(r^2)/R^2) #eqn for V
-out1 <- list()
-for (i in seq_along(Pdiff)) {
-  out1[[i]] <- ((Pdiff[i])*(R^2)/(4*mu*l))*(1-(r^2)/R^2)
-}
+# out1 <- list()
+# for (i in seq_along(Pdiff)) {
+#   out1[[i]] <- ((Pdiff[i])*(R^2)/(4*mu*l))*(1-(r^2)/R^2)
+# }
+
+out1 <- lapply(seq_along(Pdiff), function(x) {
+  ((Pdiff[x])*(R^2)/(4*mu*l))*(1-(r^2)/R^2)
+})
 
 out1_df <- data.frame(matrix(unlist(out1),ncol=length(time)),stringsAsFactors = FALSE)
 names(out1_df) <- seq_along(names(out1_df))
