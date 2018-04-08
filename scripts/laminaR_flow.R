@@ -68,6 +68,7 @@ p1 <- ggplot(data=df_t2, aes(y=r,x=V,col=Qv,frame=time,cumulative=TRUE)) +
   labs(title = "Hagen-Poiseuille's Law: Velocity Profile t =", 
        y = "Pipe Radius (m)", x = "Velocity (m/s)")
 p1
+ggsave(p1,filename = "figure/Vprofile1.png",width = 7, height = 2.5, dpi = 400, units="in")
 
-gganimate(p1,filename = "Vprofile1.gif", title_frame = TRUE,
+gganimate(p1,filename = "figure/Vprofile1.gif", title_frame = TRUE,
           interval=0.2, ani.width = 1100, ani.height = 400)
